@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-#if UNITY_EDITOR
 using UnityEditor.Callbacks;
-#endif
 using UnityEngine;
 
 namespace UtilityAI.Editor {
-#if UNITY_EDITOR
     public class BrainEditor : EditorWindow {
         [SerializeField]
         Brain brain;
@@ -337,7 +334,7 @@ namespace UtilityAI.Editor {
             var classes = (
                from assembly in AppDomain.CurrentDomain.GetAssemblies()
                from type in assembly.GetTypes()
-               where type.IsSubclassOf(typeof(Selector))
+               where type.IsSubclassOf(typeof(Selector)) && !type.IsAbstract
                select type
            ).ToList();
 
@@ -350,7 +347,7 @@ namespace UtilityAI.Editor {
             var classes = (
                from assembly in AppDomain.CurrentDomain.GetAssemblies()
                from type in assembly.GetTypes()
-               where type.IsSubclassOf(typeof(Qualifier))
+               where type.IsSubclassOf(typeof(Qualifier)) && !type.IsAbstract
                select type
            ).ToList();
 
@@ -376,7 +373,7 @@ namespace UtilityAI.Editor {
             var classes = (
                from assembly in AppDomain.CurrentDomain.GetAssemblies()
                from type in assembly.GetTypes()
-               where type.IsSubclassOf(typeof(ContextualScorerBase))
+               where type.IsSubclassOf(typeof(ContextualScorerBase)) && !type.IsAbstract
                select type
            ).ToList();
 
@@ -519,5 +516,4 @@ namespace UtilityAI.Editor {
             return screenCoords / _zoom;
         }
     }
-#endif
 }
